@@ -5,6 +5,8 @@ import com.example.escola.utils.Conexao;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class AlunoRepository {
@@ -31,5 +33,35 @@ public class AlunoRepository {
                 }
         }
         return aluno;
+    }
+
+
+    // BUSCAR TODOS
+    public List<Aluno> buscarAluno() throws SQLException {
+        List<Aluno> listarAlunos = new ArrayList<>();
+        String query = """
+                SELECT id,
+                nome,
+                email,
+                matricula,
+                data_nascimento
+                FROM aluno
+                """;
+
+        try(Connection conn = Conexao.conectar();
+            PreparedStatement stmt = conn.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery()) {
+
+            while(rs.next()) {
+                listarAlunos.add(new Aluno(
+                        rs.getInt("id"),
+                        rs.getString("nome"),
+                        rs.getString("email"),
+                        rs.getString("matricula"),
+                        rs.getDate("data_nascimento").toLocalDate()
+                ));
+            }
+        }
+        return listarAlunos;
     }
 }
