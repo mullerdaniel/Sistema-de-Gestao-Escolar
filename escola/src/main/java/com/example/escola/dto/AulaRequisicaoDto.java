@@ -1,6 +1,10 @@
 package com.example.escola.dto;
 
-public record AulaRequisicaoDto (
+import java.time.LocalDate;
 
+public record AulaRequisicaoDto (
+        int turma_id,
+        LocalDate data_hora,
+        String assunto
 ){
 }
