@@ -91,11 +91,34 @@ public class AlunoRepository {
                             rs.getString("matricula"),
                             rs.getDate("data_nascimento").toLocalDate()
                     );
-
                 }
             }
-
         }
         return null;
+    }
+
+
+    // ATUALIZAR
+    public Aluno atualizarAluno(Aluno aluno) throws SQLException {
+        String query = """
+                UPDATE aluno
+                SET nome = ?,
+                email = ?,
+                matricula = ?,
+                data_nascimento = ?
+                WHERE id = ?
+                """;
+
+        try(Connection conn = Conexao.conectar();
+            PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, aluno.getNome());
+            stmt.setString(2, aluno.getEmail());
+            stmt.setString(3, aluno.getMatricula());
+            stmt.setDate(4, Date.valueOf(aluno.getData_nascimento()));
+            stmt.executeUpdate();
+
+        }
+        return aluno;
     }
 }
