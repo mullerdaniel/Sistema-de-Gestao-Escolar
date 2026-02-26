@@ -1,6 +1,7 @@
 package com.example.escola.repository;
 
 import com.example.escola.model.Aluno;
+import com.example.escola.model.Nota;
 import com.example.escola.utils.Conexao;
 import org.springframework.stereotype.Repository;
 
@@ -133,5 +134,34 @@ public class AlunoRepository {
             stmt.setInt(1, id);
             stmt.executeUpdate();
         }
+    }
+
+
+    // BUSCAR NOTAS DO ALUNO
+    public List<Nota> buscarNotasPorAluno(int aluno_id) throws SQLException {
+        List<Nota> listarNotas = new ArrayList<>();
+        String query = """
+                SELECT n.id, n.aluno_id, n.aula_id, n.valor
+                FROM nota n
+                WHERE n.aluno_id = ?
+                """;
+
+        try(Connection conn = Conexao.conectar();
+            PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, aluno_id);
+
+            try(ResultSet rs = stmt.executeQuery()) {
+                while(rs.next()) {
+                    listarNotas.add(new Nota(
+                            rs.getInt("id"),
+                            rs.getInt("aluno_id"),
+                            rs.getInt("aula_id"),
+                            rs.getDouble("valor")
+                    ));
+                }
+            }
+        }
+        return listarNotas;
     }
 }
