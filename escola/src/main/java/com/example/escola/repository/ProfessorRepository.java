@@ -60,4 +60,34 @@ public class ProfessorRepository {
         }
         return listarProfessores;
     }
+
+
+    // BUSCAR POR ID
+    public Professor buscarPofessorPorId(int id) throws SQLException {
+        String query = """
+                SELECT id,
+                nome,
+                email,
+                disciplina
+                FROM professor
+                WHERE id = ?
+                """;
+
+        try(Connection conn = Conexao.conectar();
+            PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, id);
+            try(ResultSet rs = stmt.executeQuery()) {
+                if(rs.next()) {
+                    return new Professor(
+                            rs.getInt("id"),
+                            rs.getString("nome"),
+                            rs.getString("email"),
+                            rs.getString("disciplina")
+                    );
+                }
+            }
+        }
+        return null;
+    }
 }
