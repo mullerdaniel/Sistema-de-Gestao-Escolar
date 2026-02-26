@@ -29,6 +29,9 @@ public class Aluno {
     public Aluno() {
     }
 
+    public Aluno(String nome, String email, String matricula) {
+    }
+
     public int getId() {
         return id;
     }

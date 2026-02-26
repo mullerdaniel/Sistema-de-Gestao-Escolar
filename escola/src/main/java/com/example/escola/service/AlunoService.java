@@ -2,6 +2,7 @@ package com.example.escola.service;
 
 import com.example.escola.dto.AlunoRequisicaoDto;
 import com.example.escola.dto.AlunoRespostaDto;
+import com.example.escola.mapper.AlunoMapper;
 import com.example.escola.model.Aluno;
 import com.example.escola.repository.AlunoRepository;
 
@@ -12,14 +13,17 @@ public class AlunoService {
 
     private final AlunoRepository alunoRepository;
 
-    public AlunoService(AlunoRepository alunoRepository) {
+    private final AlunoMapper alunoMapper;
+
+    public AlunoService(AlunoRepository alunoRepository, AlunoMapper alunoMapper) {
         this.alunoRepository = alunoRepository;
+        this.alunoMapper = alunoMapper;
     }
 
 
     // SALVAR ALUNO
     public AlunoRespostaDto salvarAluno(AlunoRequisicaoDto alunoRequisicaoDto) throws SQLException {
-        Aluno aluno = AlunoMap.paraEntidade(alunoRequisicaoDto);
+        Aluno aluno = alunoMapper.paraEntidade(alunoRequisicaoDto);
 
         Aluno alunoSalvo = alunoRepository.salvarAluno(aluno);
 
