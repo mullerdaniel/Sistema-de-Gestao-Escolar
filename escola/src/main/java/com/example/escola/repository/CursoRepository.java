@@ -1,6 +1,7 @@
 package com.example.escola.repository;
 
 import com.example.escola.model.Curso;
+import com.example.escola.model.Turma;
 import com.example.escola.utils.Conexao;
 import org.springframework.stereotype.Repository;
 
@@ -123,5 +124,33 @@ public class CursoRepository {
             stmt.setInt(1, id);
             stmt.executeUpdate();
         }
+    }
+
+
+    public List<Turma> buscarTurmasPorCursoId(Long cursoId) throws SQLException {
+        List<Turma> listaTurmas = new ArrayList<>();
+        String query = """
+        SELECT id, nome, curso_id, professor_id
+        FROM turma
+        WHERE curso_id = ?
+        """;
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setLong(1, cursoId);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    listaTurmas.add(new Turma(
+                            rs.getInt("id"),
+                            rs.getString("nome"),
+                            rs.getInt("curso_id"),
+                            rs.getInt("professor_id")
+                    ));
+                }
+            }
+        }
+        return listaTurmas;
     }
 }
