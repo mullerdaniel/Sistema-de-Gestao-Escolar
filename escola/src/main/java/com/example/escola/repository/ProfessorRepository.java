@@ -112,4 +112,17 @@ public class ProfessorRepository {
         }
         return professor;
     }
+
+
+    // DELETAR POR ID
+    public void deletarProfessorPorId(int id) throws SQLException {
+            String query = "DELETE FROM professor WHERE id = ?";
+
+            try(Connection conn = Conexao.conectar();
+                PreparedStatement stmt = conn.prepareStatement(query)) {
+
+                stmt.setInt(1, id);
+                stmt.executeUpdate();
+            }
+    }
 }
