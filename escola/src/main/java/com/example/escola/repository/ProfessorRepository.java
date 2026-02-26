@@ -34,5 +34,30 @@ public class ProfessorRepository {
     }
 
 
+    // BUSCARTODOS
+    public List<Professor> buscarProfessor() throws SQLException {
+        List<Professor> listarProfessores = new ArrayList<>();
+        String query = """
+                SELECT id,
+                nome,
+                email,
+                disciplina
+                FROM professor
+                """;
 
+        try(Connection conn = Conexao.conectar();
+            PreparedStatement stmt = conn.prepareStatement(query)) {
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()) {
+                listarProfessores.add(new Professor(
+                        rs.getInt("id"),
+                        rs.getString("nome"),
+                        rs.getString("email"),
+                        rs.getString("disciplina")
+                ));
+            }
+        }
+        return listarProfessores;
+    }
 }
