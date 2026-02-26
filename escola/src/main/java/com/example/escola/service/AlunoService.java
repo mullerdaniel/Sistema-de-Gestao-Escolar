@@ -5,10 +5,12 @@ import com.example.escola.dto.AlunoRespostaDto;
 import com.example.escola.mapper.AlunoMapper;
 import com.example.escola.model.Aluno;
 import com.example.escola.repository.AlunoRepository;
+import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
 import java.util.List;
 
+@Service
 public class AlunoService {
 
     private final AlunoRepository alunoRepository;
