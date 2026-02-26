@@ -17,7 +17,7 @@ public class AlunoRepository {
         String query = "INSERT INTO aluno (nome, email, matricula, data_nascimento) VALUES (?,?,?,?)";
 
         try(Connection conn = Conexao.conectar();
-            PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS) {
+            PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
                 stmt.setString(1, aluno.getNome());
                 stmt.setString(2, aluno.getEmail());
