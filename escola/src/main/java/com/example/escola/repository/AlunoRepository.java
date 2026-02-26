@@ -64,4 +64,38 @@ public class AlunoRepository {
         }
         return listarAlunos;
     }
+
+
+    // BUSCAR POR ID
+    public Aluno buscarAlunoPorId(int id) throws SQLException {
+        String query = """
+                SELECT id,
+                nome,
+                email,
+                matricula,
+                data_nascimento
+                FROM aluno
+                WHERE id = ?
+                """;
+
+        try(Connection conn = Conexao.conectar();
+            PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, id);
+
+            try(ResultSet rs = stmt.executeQuery()) {
+                if(rs.next()) {
+                    return new Aluno(
+                            rs.getInt("id"),
+                            rs.getString("nome"),
+                            rs.getString("email"),
+                            rs.getString("matricula"),
+                            rs.getDate("data_nascimento").toLocalDate()
+                    );
+
+                }
+            }
+
+        }
+        return null;
+    }
 }
