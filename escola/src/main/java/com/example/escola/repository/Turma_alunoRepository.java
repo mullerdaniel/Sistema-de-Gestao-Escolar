@@ -105,4 +105,17 @@ public class Turma_alunoRepository {
             stmt.executeUpdate();
         }
     }
+
+
+    public void matricularAluno(int turma_id, int aluno_id) throws SQLException {
+        String query = "INSERT INTO turma_aluno (turma_id, aluno_id) VALUES (?, ?)";
+
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, turma_id);
+            stmt.setInt(2, aluno_id);
+            stmt.executeUpdate();
+        }
+    }
 }
