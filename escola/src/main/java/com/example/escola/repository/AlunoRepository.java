@@ -121,4 +121,17 @@ public class AlunoRepository {
         }
         return aluno;
     }
+
+
+    // DELETAR POR ID
+    public void deletarAlunoPorId(int id) throws SQLException {
+        String query = "DELETE FROM aluno WHERE id = ?";
+
+        try(Connection conn = Conexao.conectar();
+            PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+        }
+    }
 }
