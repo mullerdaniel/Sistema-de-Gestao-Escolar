@@ -10,17 +10,31 @@ import java.util.List;
 @Repository
 public class Turma_alunoRepository {
 
-
     // SALVAR
     public void salvarTurma_aluno(int turma_id, int aluno_id) throws SQLException {
-        String query = "INSERT INTO turma_aluno (turma_id, aluno_id) VALUES (?, ?)";
 
-        try (Connection conn = Conexao.conectar();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
+        String verifica = "SELECT 1 FROM turma_aluno WHERE turma_id = ? AND aluno_id = ?";
+        String insert = "INSERT INTO turma_aluno (turma_id, aluno_id) VALUES (?, ?)";
 
-            stmt.setInt(1, turma_id);
-            stmt.setInt(2, aluno_id);
-            stmt.executeUpdate();
+        try (Connection conn = Conexao.conectar()) {
+
+            // Verifica se já existe
+            try (PreparedStatement stmtVerifica = conn.prepareStatement(verifica)) {
+                stmtVerifica.setInt(1, turma_id);
+                stmtVerifica.setInt(2, aluno_id);
+
+                ResultSet rs = stmtVerifica.executeQuery();
+                if (rs.next()) {
+                    throw new SQLException("Aluno já matriculado nesta turma.");
+                }
+            }
+
+            // Insere
+            try (PreparedStatement stmtInsert = conn.prepareStatement(insert)) {
+                stmtInsert.setInt(1, turma_id);
+                stmtInsert.setInt(2, aluno_id);
+                stmtInsert.executeUpdate();
+            }
         }
     }
 
@@ -41,6 +55,7 @@ public class Turma_alunoRepository {
 
     // BUSCAR ALUNOS POR TURMA
     public List<Integer> buscarAlunosPorTurma(int turma_id) throws SQLException {
+
         List<Integer> alunos = new ArrayList<>();
         String query = "SELECT aluno_id FROM turma_aluno WHERE turma_id = ?";
 
@@ -62,6 +77,7 @@ public class Turma_alunoRepository {
 
     // BUSCAR TURMAS POR ALUNO
     public List<Integer> buscarTurmasPorAluno(int aluno_id) throws SQLException {
+
         List<Integer> turmas = new ArrayList<>();
         String query = "SELECT turma_id FROM turma_aluno WHERE aluno_id = ?";
 
@@ -108,14 +124,6 @@ public class Turma_alunoRepository {
 
 
     public void matricularAluno(int turma_id, int aluno_id) throws SQLException {
-        String query = "INSERT INTO turma_aluno (turma_id, aluno_id) VALUES (?, ?)";
-
-        try (Connection conn = Conexao.conectar();
-             PreparedStatement stmt = conn.prepareStatement(query)) {
-
-            stmt.setInt(1, turma_id);
-            stmt.setInt(2, aluno_id);
-            stmt.executeUpdate();
-        }
+        salvarTurma_aluno(turma_id, aluno_id);
     }
 }
