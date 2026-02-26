@@ -90,4 +90,26 @@ public class ProfessorRepository {
         }
         return null;
     }
+
+
+    // ATUALIZAR
+    public Professor atualizarProfessor(Professor professor) throws SQLException {
+        String query = """
+                UPDATE professor
+                SET nome = ?,
+                email = ?,
+                disciplina = ?
+                WHERE id = ?
+                """;
+
+        try(Connection conn = Conexao.conectar();
+            PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setString(1, professor.getNome());
+            stmt.setString(2, professor.getEmail());
+            stmt.setString(3, professor.getDisciplina());
+            stmt.executeUpdate();
+        }
+        return professor;
+    }
 }
