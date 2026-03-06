@@ -2,6 +2,7 @@ package com.example.escola.controller;
 
 import com.example.escola.model.Curso;
 import com.example.escola.service.CursoService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -19,7 +20,7 @@ public class CursoController {
 
 
     @PostMapping
-    public Curso salvarCurso(@RequestBody Curso curso) {
+    public Curso salvarCurso(@Valid  @RequestBody Curso curso) {
         try {
             return cursoService.salvarCurso(curso);
         } catch (SQLException e) {
@@ -59,7 +60,7 @@ public class CursoController {
 
 
     @PutMapping("/{id}")
-    public Curso atualizarCurso(@PathVariable int id, @RequestBody Curso curso) {
+    public Curso atualizarCurso(@PathVariable int id, @Valid @RequestBody Curso curso) {
         try {
             return cursoService.atualizarCurso(curso, id);
         } catch (SQLException e) {
