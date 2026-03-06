@@ -2,6 +2,7 @@ package com.example.escola.controller;
 
 import com.example.escola.model.Nota;
 import com.example.escola.service.NotaService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
@@ -19,7 +20,7 @@ public class NotaController {
 
 
     @PostMapping
-    public Nota salvarNota(@RequestBody Nota nota) {
+    public Nota salvarNota(@Valid  @RequestBody Nota nota) {
         try {
             return notaService.salvarNota(nota);
         } catch (SQLException e) {
@@ -59,7 +60,7 @@ public class NotaController {
 
 
     @PutMapping("/{id}")
-    public Nota atualizarNota(@PathVariable int id, @RequestBody Nota nota) {
+    public Nota atualizarNota(@PathVariable int id, @Valid @RequestBody Nota nota) {
         try {
             return notaService.atualizarNota(nota, id);
         } catch (SQLException e) {
