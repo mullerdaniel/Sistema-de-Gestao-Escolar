@@ -12,7 +12,9 @@ public class AlunoMapper {
         return new Aluno(
                 alunoRequisicaoDto.nome(),
                 alunoRequisicaoDto.email(),
-                alunoRequisicaoDto.matricula()
+                alunoRequisicaoDto.matricula(),
+                alunoRequisicaoDto.data_nascimento()
+
         );
     }
     public AlunoRespostaDto paraRespostaDto(

@@ -20,18 +20,24 @@ public class AlunoRepository {
         try(Connection conn = Conexao.conectar();
             PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
 
-                stmt.setString(1, aluno.getNome());
-                stmt.setString(2, aluno.getEmail());
-                stmt.setString(3, aluno.getMatricula());
+            stmt.setString(1, aluno.getNome());
+            stmt.setString(2, aluno.getEmail());
+            stmt.setString(3, aluno.getMatricula());
+
+            if(aluno.getData_nascimento() != null){
                 stmt.setDate(4, Date.valueOf(aluno.getData_nascimento()));
-                stmt.executeUpdate();
+            }else{
+                stmt.setNull(4, Types.DATE);
+            }
 
-                ResultSet rs = stmt.getGeneratedKeys();
+            stmt.executeUpdate();
 
-                if(rs.next()) {
-                    aluno.setId(rs.getInt(1));
-                    return aluno;
-                }
+            ResultSet rs = stmt.getGeneratedKeys();
+
+            if(rs.next()) {
+                aluno.setId(rs.getInt(1));
+                return aluno;
+            }
         }
         return aluno;
     }
@@ -59,7 +65,8 @@ public class AlunoRepository {
                         rs.getString("nome"),
                         rs.getString("email"),
                         rs.getString("matricula"),
-                        rs.getDate("data_nascimento").toLocalDate()
+                        rs.getDate("data_nascimento") != null ?
+                                rs.getDate("data_nascimento").toLocalDate() : null
                 ));
             }
         }
@@ -90,7 +97,8 @@ public class AlunoRepository {
                             rs.getString("nome"),
                             rs.getString("email"),
                             rs.getString("matricula"),
-                            rs.getDate("data_nascimento").toLocalDate()
+                            rs.getDate("data_nascimento") != null ?
+                                    rs.getDate("data_nascimento").toLocalDate() : null
                     );
                 }
             }
@@ -116,7 +124,14 @@ public class AlunoRepository {
             stmt.setString(1, aluno.getNome());
             stmt.setString(2, aluno.getEmail());
             stmt.setString(3, aluno.getMatricula());
-            stmt.setDate(4, Date.valueOf(aluno.getData_nascimento()));
+
+            if(aluno.getData_nascimento() != null){
+                stmt.setDate(4, Date.valueOf(aluno.getData_nascimento()));
+            }else{
+                stmt.setNull(4, Types.DATE);
+            }
+
+            stmt.setInt(5, aluno.getId());
             stmt.executeUpdate();
 
         }

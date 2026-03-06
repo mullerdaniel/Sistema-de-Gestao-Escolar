@@ -108,6 +108,7 @@ public class ProfessorRepository {
             stmt.setString(1, professor.getNome());
             stmt.setString(2, professor.getEmail());
             stmt.setString(3, professor.getDisciplina());
+            stmt.setInt(4, professor.getId());
             stmt.executeUpdate();
         }
         return professor;

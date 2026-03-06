@@ -10,13 +10,7 @@ public class Aluno {
     private String matricula;
     private LocalDate data_nascimento;
 
-
-    public Aluno(int id, String nome, String email, String matricula, LocalDate data_nascimento) {
-        this.id = id;
-        this.nome = nome;
-        this.email = email;
-        this.matricula = matricula;
-        this.data_nascimento = data_nascimento;
+    public Aluno() {
     }
 
     public Aluno(String nome, String email, String matricula, LocalDate data_nascimento) {
@@ -26,10 +20,12 @@ public class Aluno {
         this.data_nascimento = data_nascimento;
     }
 
-    public Aluno() {
-    }
-
-    public Aluno(String nome, String email, String matricula) {
+    public Aluno(int id, String nome, String email, String matricula, LocalDate data_nascimento) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.matricula = matricula;
+        this.data_nascimento = data_nascimento;
     }
 
     public int getId() {
@@ -40,6 +36,7 @@ public class Aluno {
         this.id = id;
     }
 
+
     public String getNome() {
         return nome;
     }
@@ -47,6 +44,7 @@ public class Aluno {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
 
     public String getEmail() {
         return email;
@@ -56,6 +54,7 @@ public class Aluno {
         this.email = email;
     }
 
+
     public String getMatricula() {
         return matricula;
     }
@@ -63,6 +62,7 @@ public class Aluno {
     public void setMatricula(String matricula) {
         this.matricula = matricula;
     }
+
 
     public LocalDate getData_nascimento() {
         return data_nascimento;
