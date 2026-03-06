@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/turma-aluno")
+@RequestMapping("/turma_aluno")
 public class Turma_alunoController {
 
     private final Turma_alunoRepository repository;
